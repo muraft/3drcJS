@@ -3,8 +3,14 @@
 <head>
   <title>3drc.js Example</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #screen{
+      border: 1px solid black;
+    }
+  </style>
 </head>
 <body>
+  <canvas id="screen"></canvas>
   <script src="3drc.js"></script>
   <script>
     const exampleMap={
@@ -16,12 +22,18 @@
         1,1,1,1,1
       ],
      width:5,
-     height:5
+     height:5,
+     image:['',['gray','brick.jpg']]
     }
     tdrc.setMap(exampleMap);
     tdrc.setGraphic({
       depth:true
     });
+    function loop(){
+      tdrc.render(document.getElementById('screen'))
+      requestAnimationFrame(loop);
+    }
+    loop();
   </script>
 </body>
 </html>
