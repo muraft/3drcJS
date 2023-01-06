@@ -11,7 +11,7 @@ class Tdrc{
     this.graphic={
       totalRay: 300,
       fov: this.#toRadian(45),
-      rayStep: 0.05,
+      rayStep: 0.5,
       texture: true,
       depth: false
     };
@@ -25,7 +25,7 @@ class Tdrc{
     return list.forEach(v=>{if(!obj.hasOwnProperty(v))throw new Error(`${name.charAt(0).toUpperCase()+name.slice(1)} must has "${v}"`)});
   }
   #toRadian(degree){return degree*Math.PI/180}
-  #toIndex(x,y){return y*this.map.size+x}
+  #toIndex(x,y){return y*this.map.side+x}
 
   setMap(map){
     this.#assign('map',map);
@@ -51,13 +51,10 @@ class Tdrc{
     {
       let rayEndX=this.player.xPos;
       let rayEndY=this.player.yPos;
+      let stepX=this.graphic.rayStep*Math.cos(currentAngle);
+      let stepY=this.graphic.rayStep*Math.sin(currentAngle);
       let hit=false;
       while(!hit){
-        let stepX=this.graphic.rayStep;
-        let stepY=this.graphic.rayStep;
-        // let stepX=this.graphic.rayStep*Math.cos(currentAngle);
-        // let stepY=this.graphic.rayStep*Math.sin(currentAngle);
-        console.log(this.map.data[this.#toIndex(Math.floor((rayEndX+stepX)/this.map.cellSize),Math.floor(rayEndY/this.map.cellSize))])
         if(this.map.data[this.#toIndex(Math.floor((rayEndX+stepX)/this.map.cellSize),Math.floor(rayEndY/this.map.cellSize))]==1){
           hit=true;
           rays.push([rayEndX+stepX,rayEndY+stepY,"right",
@@ -77,8 +74,8 @@ class Tdrc{
         }
         rayEndX+=stepX;
         rayEndY+=stepY;
-        if(rayEndX>this.map.width)hit=true;
-        if(rayEndY>this.map.height)hit=true;
+        if(rayEndX<0 || rayEndX>this.map.side*this.map.cellSize)hit=true;
+        if(rayEndY<0 || rayEndY>this.map.side*this.map.cellSize)hit=true;
       }
       currentAngle+=angleIncrement;
       count++
