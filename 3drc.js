@@ -11,7 +11,7 @@ class Tdrc{
     this.graphic={
       totalRay: 300,
       fov: this.#toRadian(45),
-      rayStep: 0.5,
+      rayStep: 0.05,
       texture: true,
       depth: false
     };
@@ -33,6 +33,7 @@ class Tdrc{
     let side=Math.sqrt(this.map.data.length);
     if(side%1!=0)throw new Error('Only a×a square map is supported');
     else this.map.side=side;
+    this.map.distance=this.map.side*this.map.cellSize-this.map.cellSize*2;
   }
 
   setGraphic(graphic){
@@ -82,6 +83,37 @@ class Tdrc{
     }
     return rays;
   }
+ 
+  #render3d(rays,canvas,ctx){
+    let lineWidth=(canvas.width/this.graphic.totalRay);
+    ctx.fillStyle="skyblue";
+    ctx.fillRect(0,0,canvas.width,canvas.height)
+    ctx.fillStyle="gray";
+    ctx.fillRect(0,canvas.height/2,canvas.width,canvas.height/2)
+    rays.forEach((ray,i)=>{
+      let distance = Math.sqrt(Math.pow(ray[0]-this.player.xPos,2)+Math.pow(ray[1]-this.player.yPos,2))/10;
+      if(distance==0)distance=0.1;
+      let decimal = distance*10/this.map.distance;
+      let lineX=lineWidth*i, lineY=canvas.height/2-canvas.height/distance/2, lineHeight=canvas.height/distance;
+
+      if(this.graphic.texture && false){
+        let start=ray[3]*brick.width;
+        ctx.drawImage(brick,start,0,lineWidth/brick.width,brick.height,lineX,lineY,lineWidth,lineHeight)
+        if(this.graphic.depth){
+          decimal*=50;
+          ctx.fillStyle=ray[2]=="right"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
+          ctx.fillRect(lineX,lineY,lineWidth,lineHeight)
+        }
+      }
+      else{
+        decimal=50-decimal*25;
+        ctx.fillStyle=this.graphic.depth?
+        (ray[2]=="right"?"hsl(240, 100%, "+decimal+"%)":"hsl(240, 70%, "+decimal+"%)"):
+        (ray[2]=="right"?"hsl(240, 100%, 50%)":"hsl(240, 70%, 50%)");
+        ctx.fillRect(lineX,lineY,lineWidth,lineHeight);
+      }
+    }) 
+  } 
 
   render(canvas){
     const ctx=canvas.getContext('2d');
@@ -90,6 +122,6 @@ class Tdrc{
     this.player.yPos = this.player.y*this.map.cellSize;
     this.rays=this.#castRay();
     console.log(this.rays);
-    //this.#render3d(this.#rays);
+    this.#render3d(this.rays,canvas,ctx);
   }
 }
