@@ -1,6 +1,10 @@
 class Tdrc{
   constructor(){
     this.map={cellSize:5};
+    this.texture={
+      colour:'blue', 
+      data: {}
+    }
     this.player={
       x: 1,
       y: 1,
@@ -12,8 +16,8 @@ class Tdrc{
       totalRay: 300,
       fov: this.#toRadian(45),
       rayStep: 0.05,
-      texture: false,
-      depth: true
+      texture: true,
+      depth: false
     };
     this.rays=0;
   }
@@ -26,6 +30,22 @@ class Tdrc{
   }
   #toRadian(degree){return degree*Math.PI/180}
   #toIndex(x,y){return y*this.map.side+x}
+  
+  #loadTexture(){
+    Object.entries(this.map.texture).forEach(v=>{
+      let data,type;
+      if(/\.(jpg||jpeg||png)$/g.test(v[1])){
+        type='image';
+        data=new Image();
+        data.src=v[1];
+      }
+      else{
+        type='colour';
+        data=v[1];
+      }
+      this.texture.data[v[0]]={type,content:data}
+    })
+  }
 
   setMap(map){
     this.#assign('map',map);
@@ -56,7 +76,8 @@ class Tdrc{
       let stepY=this.graphic.rayStep*Math.sin(currentAngle);
       let hit=false;
       while(!hit){
-        if(this.map.data[this.#toIndex(Math.floor((rayEndX+stepX)/this.map.cellSize),Math.floor(rayEndY/this.map.cellSize))]==1){
+        let blockId=this.map.data[this.#toIndex(Math.floor((rayEndX+stepX)/this.map.cellSize),Math.floor(rayEndY/this.map.cellSize))];
+        if(blockId!=0){
           hit=true;
           rays.push({
             distanceX: rayEndX+stepX,
@@ -65,11 +86,12 @@ class Tdrc{
             texturePos: (
               (Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize
               -Math.floor((Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize)
-            )
+            ), 
+            blockId
           });
-
         }
-        if(this.map.data[this.#toIndex(Math.floor(rayEndX/this.map.cellSize),Math.floor((rayEndY+stepY)/this.map.cellSize))]==1){
+        blockId=this.map.data[this.#toIndex(Math.floor(rayEndX/this.map.cellSize),Math.floor((rayEndY+stepY)/this.map.cellSize))];
+        if(blockId!=0){
           hit=true;
           rays.push({
             distanceX: rayEndX+stepX,
@@ -78,7 +100,8 @@ class Tdrc{
             texturePos: (
               (Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize
               -Math.floor((Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize)
-            )
+            ), 
+            blockId
           });
         }
         rayEndX+=stepX;
@@ -87,7 +110,7 @@ class Tdrc{
         if(rayEndY<0 || rayEndY>this.map.side*this.map.cellSize)hit=true;
       }
       currentAngle+=angleIncrement;
-      count++
+      count++;
     }
     return rays;
   }
@@ -103,10 +126,17 @@ class Tdrc{
       if(distance==0)distance=0.1;
       let decimal = distance*10/this.map.distance;
       let lineX=lineWidth*i, lineY=canvas.height/2-canvas.height/distance/2, lineHeight=canvas.height/distance;
-
-      if(this.graphic.texture && false){
-        let start=ray.texturePos*brick.width;
-        ctx.drawImage(brick,start,0,lineWidth/brick.width,brick.height,lineX,lineY,lineWidth,lineHeight)
+      
+      let textureData=this.texture.data[ray.blockId];
+      if(this.graphic.texture){
+        if(textureData.type=='image'){
+          if(ray.orientation=='left')ray.texturePos=1-ray.texturePos;
+          let start=ray.texturePos*textureData.content.width;
+          ctx.drawImage(textureData.content,start,0,lineWidth/textureData.content.width,textureData.content.height,lineX,lineY,lineWidth,lineHeight)
+        }else{
+          ctx.fillStyle=textureData.content;
+          ctx.fillRect(lineX,lineY,lineWidth,lineHeight)
+        }
         if(this.graphic.depth){
           decimal*=50;
           ctx.fillStyle=ray.orientation=="right"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
@@ -122,7 +152,11 @@ class Tdrc{
       }
     }) 
   } 
-
+  
+  init(){
+    this.#loadTexture();
+  }
+  
   render(canvas){
     const ctx=canvas.getContext('2d');
     ctx.clearRect(0,0,canvas.width,canvas.height);
