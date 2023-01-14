@@ -12,8 +12,8 @@ class Tdrc{
       totalRay: 300,
       fov: this.#toRadian(45),
       rayStep: 0.05,
-      texture: true,
-      depth: false
+      texture: false,
+      depth: true
     };
     this.rays=0;
   }
@@ -58,20 +58,28 @@ class Tdrc{
       while(!hit){
         if(this.map.data[this.#toIndex(Math.floor((rayEndX+stepX)/this.map.cellSize),Math.floor(rayEndY/this.map.cellSize))]==1){
           hit=true;
-          rays.push([rayEndX+stepX,rayEndY+stepY,"right",
-          (
-            (Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize
-          -Math.floor((Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize)
-          )]);
+          rays.push({
+            distanceX: rayEndX+stepX,
+            distanceY: rayEndY+stepY,
+            orientation: "right",
+            texturePos: (
+              (Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize
+              -Math.floor((Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize)
+            )
+          });
 
         }
         if(this.map.data[this.#toIndex(Math.floor(rayEndX/this.map.cellSize),Math.floor((rayEndY+stepY)/this.map.cellSize))]==1){
           hit=true;
-          rays.push([rayEndX+stepX,rayEndY+stepY,"left",
-          (
-            (Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize
-          -Math.floor((Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize)
-          )]);
+          rays.push({
+            distanceX: rayEndX+stepX,
+            distanceY: rayEndY+stepY,
+            orientation: "left",
+            texturePos: (
+              (Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize
+              -Math.floor((Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize)
+            )
+          });
         }
         rayEndX+=stepX;
         rayEndY+=stepY;
@@ -91,25 +99,25 @@ class Tdrc{
     ctx.fillStyle="gray";
     ctx.fillRect(0,canvas.height/2,canvas.width,canvas.height/2)
     rays.forEach((ray,i)=>{
-      let distance = Math.sqrt(Math.pow(ray[0]-this.player.xPos,2)+Math.pow(ray[1]-this.player.yPos,2))/10;
+      let distance = Math.sqrt(Math.pow(ray.distanceX-this.player.xPos,2)+Math.pow(ray.distanceY-this.player.yPos,2))/10;
       if(distance==0)distance=0.1;
       let decimal = distance*10/this.map.distance;
       let lineX=lineWidth*i, lineY=canvas.height/2-canvas.height/distance/2, lineHeight=canvas.height/distance;
 
       if(this.graphic.texture && false){
-        let start=ray[3]*brick.width;
+        let start=ray.texturePos*brick.width;
         ctx.drawImage(brick,start,0,lineWidth/brick.width,brick.height,lineX,lineY,lineWidth,lineHeight)
         if(this.graphic.depth){
           decimal*=50;
-          ctx.fillStyle=ray[2]=="right"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
+          ctx.fillStyle=ray.orientation=="right"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
           ctx.fillRect(lineX,lineY,lineWidth,lineHeight)
         }
       }
       else{
         decimal=50-decimal*25;
         ctx.fillStyle=this.graphic.depth?
-        (ray[2]=="right"?"hsl(240, 100%, "+decimal+"%)":"hsl(240, 70%, "+decimal+"%)"):
-        (ray[2]=="right"?"hsl(240, 100%, 50%)":"hsl(240, 70%, 50%)");
+        (ray.orientation=="right"?"hsl(240, 100%, "+decimal+"%)":"hsl(240, 70%, "+decimal+"%)"):
+        (ray.orientation=="right"?"hsl(240, 100%, 50%)":"hsl(240, 70%, 50%)");
         ctx.fillRect(lineX,lineY,lineWidth,lineHeight);
       }
     }) 
