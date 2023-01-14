@@ -16,7 +16,7 @@
     let tdrc=new Tdrc();
     const exampleMap={
     data: [1,1,1,1,1,1,1,1,1,1,
-           1,0,0,1,0,0,0,0,0,1,
+           1,0,0,2,0,0,0,0,0,1,
            1,0,0,0,0,0,0,0,0,1,
            1,0,0,1,0,0,1,0,0,1,
            1,0,0,1,1,0,0,0,0,1,
@@ -25,17 +25,22 @@
            1,0,1,0,0,0,0,1,0,1,
            1,0,1,0,0,0,0,0,0,1,
            1,1,1,1,1,1,1,1,1,1],
-     image:['',['gray','brick.jpg']]
+     texture:{
+       1: 'test.jpg', 
+       2: 'green'
+     }
     }
     tdrc.setMap(exampleMap);
     tdrc.setGraphic({
       depth:true
     });
+    
+    tdrc.init();
+    window.onload=()=>loop();
     function loop(){
       tdrc.render(document.getElementById('screen'))
       // requestAnimationFrame(loop);
     }
-    loop();
   </script>
 </body>
 </html>
