@@ -4,6 +4,9 @@
   <title>3drc.js Example</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    *{
+      user-select: none;
+    }
     #screen{
       border: 1px solid black;
     }
@@ -12,6 +15,16 @@
 <body>
   <canvas id="screen"></canvas>
   <script src="3drc.js"></script>
+  <br>
+  <script>
+    const buttons={left:false,right:false,forward:false,backward:false,faceLeft:false,faceRight:false};
+  </script>
+  <button ontouchstart="buttons.faceLeft=true" ontouchend="buttons.faceLeft=false">left</button>
+  <button ontouchstart="buttons.faceRight=true" ontouchend="buttons.faceRight=false">right</button>
+  <button ontouchstart="buttons.left=true" ontouchend="buttons.left=false">&lArr;</button>
+  <button ontouchstart="buttons.right=true" ontouchend="buttons.right=false">&rArr;</button>
+  <button ontouchstart="buttons.forward=true" ontouchend="buttons.forward=false">&uArr;</button>
+  <button ontouchstart="buttons.backward=true" ontouchend="buttons.backward=false">&dArr;</button>
   <script>
     let tdrc=new Tdrc();
     const exampleMap={
@@ -38,8 +51,9 @@
     tdrc.init();
     window.onload=()=>loop();
     function loop(){
+      tdrc.control(buttons);
       tdrc.render(document.getElementById('screen'))
-      // requestAnimationFrame(loop);
+      requestAnimationFrame(loop);
     }
   </script>
 </body>
