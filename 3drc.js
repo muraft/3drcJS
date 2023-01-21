@@ -61,6 +61,17 @@ class Tdrc{
     this.#assign('graphic',graphic);
     let {totalRay,fov,rayStep,texture,depth}=this.graphic;
   }
+  
+  #identifyFace(posX,posY,orientation){
+    if(orientation=='vertical'){
+      if(posX>this.player.xPos)return 'right';
+      else return 'left';
+    }
+    if(orientation=='horizontal'){
+      if(posY>this.player.yPos)return 'top';
+      else return 'bottom';
+    }
+  }
 
   #castRay(){
     let currentAngle=this.player.angle-this.graphic.fov/2;
@@ -82,7 +93,7 @@ class Tdrc{
           rays.push({
             distanceX: rayEndX+stepX,
             distanceY: rayEndY+stepY,
-            orientation: "right",
+            face: this.#identifyFace(rayEndX+stepX,rayEndY+stepY,'vertical'),
             texturePos: (
               (Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize
               -Math.floor((Math.abs(rayEndY)+Math.abs(stepY))/this.map.cellSize)
@@ -96,7 +107,7 @@ class Tdrc{
           rays.push({
             distanceX: rayEndX+stepX,
             distanceY: rayEndY+stepY,
-            orientation: "left",
+            face: this.#identifyFace(rayEndX+stepX,rayEndY+stepY,'horizontal'),
             texturePos: (
               (Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize
               -Math.floor((Math.abs(rayEndX)+Math.abs(stepX))/this.map.cellSize)
@@ -130,7 +141,7 @@ class Tdrc{
       let textureData=this.texture.data[ray.blockId];
       if(this.graphic.texture){
         if(textureData.type=='image'){
-          if(ray.orientation=='left')ray.texturePos=1-ray.texturePos;
+          if(ray.face=='left')ray.texturePos=1-ray.texturePos;
           let start=ray.texturePos*textureData.content.width;
           ctx.drawImage(textureData.content,start,0,lineWidth/textureData.content.width,textureData.content.height,lineX,lineY,lineWidth,lineHeight)
         }else{
@@ -139,15 +150,15 @@ class Tdrc{
         }
         if(this.graphic.depth){
           decimal*=50;
-          ctx.fillStyle=ray.orientation=="right"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
+          ctx.fillStyle=ray.face=="right"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
           ctx.fillRect(lineX,lineY,lineWidth,lineHeight)
         }
       }
       else{
         decimal=50-decimal*25;
         ctx.fillStyle=this.graphic.depth?
-        (ray.orientation=="right"?"hsl(240, 100%, "+decimal+"%)":"hsl(240, 70%, "+decimal+"%)"):
-        (ray.orientation=="right"?"hsl(240, 100%, 50%)":"hsl(240, 70%, 50%)");
+        (ray.face=="right"||ray.face=="left"?"hsl(240, 100%, "+decimal+"%)":"hsl(240, 70%, "+decimal+"%)"):
+        (ray.face=="right"||ray.face=="left"?"hsl(240, 100%, 50%)":"hsl(240, 70%, 50%)");
         ctx.fillRect(lineX,lineY,lineWidth,lineHeight);
       }
     }) 
