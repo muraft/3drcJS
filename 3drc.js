@@ -64,8 +64,8 @@ class Tdrc{
   
   #identifyFace(posX,posY,orientation){
     if(orientation=='vertical'){
-      if(posX>this.player.xPos)return 'right';
-      else return 'left';
+      if(posX>this.player.xPos)return 'left';
+      else return 'right';
     }
     if(orientation=='horizontal'){
       if(posY>this.player.yPos)return 'top';
@@ -150,7 +150,7 @@ class Tdrc{
         }
         if(this.graphic.depth){
           decimal*=50;
-          ctx.fillStyle=ray.face=="right"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
+          ctx.fillStyle=ray.face=="right"||ray.face=="left"?"rgba(65,65,65,"+decimal+"%)":"rgba(0,0,0,"+decimal+"%)"
           ctx.fillRect(lineX,lineY,lineWidth,lineHeight)
         }
       }
