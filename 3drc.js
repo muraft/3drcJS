@@ -31,19 +31,26 @@ class Tdrc{
   #toRadian(degree){return degree*Math.PI/180}
   #toIndex(x,y){return y*this.map.side+x}
   
-  #loadTexture(){
-    Object.entries(this.map.texture).forEach(v=>{
-      let data,type;
-      if(/\.(jpg||jpeg||png)$/g.test(v[1])){
-        type='image';
-        data=new Image();
-        data.src=v[1];
-      }
-      else{
-        type='colour';
-        data=v[1];
-      }
-      this.texture.data[v[0]]={type,content:data}
+  #loadBlock(){
+    Object.entries(this.map.block).forEach(v=>{
+      if(!Array.isArray(v[1].texture))v[1].texture=[v[1].texture,v[1].texture,v[1].texture,v[1].texture]
+      this.texture.data[v[0]]={};
+      v[1].texture.forEach((w,i)=>{
+        let data,type;
+        let transparent=false;
+        if(/\.(jpg||jpeg||png)$/g.test(w)){
+          type='image';
+          data=new Image();
+          data.src=w;
+          if(/\.png$/g.test(w))transparent=true;
+        }
+        else{
+          type='colour';
+          data=w;
+        }
+        let face=['left','top','right','bottom']
+        this.texture.data[v[0]][face[i]]={type,content:data,transparent}
+      })
     })
   }
 
@@ -138,7 +145,7 @@ class Tdrc{
       let decimal = distance*10/this.map.distance;
       let lineX=lineWidth*i, lineY=canvas.height/2-canvas.height/distance/2, lineHeight=canvas.height/distance;
       
-      let textureData=this.texture.data[ray.blockId];
+      let textureData=this.texture.data[ray.blockId][ray.face];
       if(this.graphic.texture){
         if(textureData.type=='image'){
           if(ray.face=='left')ray.texturePos=1-ray.texturePos;
@@ -165,7 +172,7 @@ class Tdrc{
   } 
   
   init(){
-    this.#loadTexture();
+    this.#loadBlock();
   }
   
   render(canvas){
