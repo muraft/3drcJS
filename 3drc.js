@@ -148,7 +148,8 @@ class Tdrc{
       let textureData=this.texture.data[ray.blockId][ray.face];
       if(this.graphic.texture){
         if(textureData.type=='image'){
-          if(ray.face=='left')ray.texturePos=1-ray.texturePos;
+          if(ray.face=='right')ray.texturePos=1-ray.texturePos;
+          if(ray.face=='top')ray.texturePos=1-ray.texturePos; 
           let start=ray.texturePos*textureData.content.width;
           ctx.drawImage(textureData.content,start,0,lineWidth/textureData.content.width,textureData.content.height,lineX,lineY,lineWidth,lineHeight)
         }else{
