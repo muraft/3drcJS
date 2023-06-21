@@ -1,0 +1,30 @@
+{
+  "name": "3drcjs",
+  "version": "0.1.0",
+  "description": "A simple JavaScript raycasting engine library",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "build": "webpack -p",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muraft/3drcjs.git"
+  },
+  "keywords": [
+    "raycasting",
+    "javascript",
+    "library"
+  ],
+  "author": "muraft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muraft/3drcjs/issues"
+  },
+  "homepage": "https://github.com/muraft/3drcjs#readme",
+  "devDependencies": {
+    "webpack": "^5.87.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
