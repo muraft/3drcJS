@@ -1,7 +1,17 @@
 const values=require('./config/default.js');
 
-const loadDefault=(that)=>{
+const loadDefault=that=>{
   Object.assign(that,values)
 }
 
-module.exports={loadDefault};
+const loadModules=that=>{
+  const modules=['control','loadBlock','set','utils']
+  modules.forEach(module=>{
+    const imported=require('./modules/'+module);
+    for (const variable in imported){
+      that[variable]=imported[variable];
+    }
+  })
+}
+
+module.exports={loadDefault,loadModules};

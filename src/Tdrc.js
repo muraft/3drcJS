@@ -1,9 +1,9 @@
-const {loadDefault}=require('./loader.js');
+const {loadDefault,loadModules}=require('./loader.js');
 
 class Tdrc{
   constructor(){
-    this.ok=1
     loadDefault(this);
+    loadModules(this);
   }
 }
 
