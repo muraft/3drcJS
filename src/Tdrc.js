@@ -1,5 +1,4 @@
-var path = require('path');
-const {loadDefault}=require(path.resolve(__dirname,"./loader.js"));
+const {loadDefault}=require('./loader.js');
 
 class Tdrc{
   constructor(){
