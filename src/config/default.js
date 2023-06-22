@@ -1,5 +1,4 @@
-var path = require('path');
-const {toRadian}=require(path.resolve(__dirname,"../modules/utils.js"));
+const {toRadian}=require('../modules/utils.js');
 
 const mapCellSize=5;
 module.exports={
@@ -7,7 +6,7 @@ module.exports={
       cellSize:mapCellSize
     },
     texture:{
-      colour:'blue', 
+      colour:'blue',
       data: {}
     },
     player:{
