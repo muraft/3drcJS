@@ -6,6 +6,8 @@ module.exports = {
   },
   output: {
     filename: '3drc.bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  }
+    path: path.resolve(__dirname, 'dist'), 
+    libraryTarget: "umd",
+    library: "Tdrc"
+  }, 
 };
