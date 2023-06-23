@@ -7,7 +7,8 @@ class Tdrc{
     loadMethods(this);
   }
   init(){
-    loadBlock();
+    loadBlock(this);
   }
 }
-if(!typeof window)window.Tdrc=Tdrc;
+
+module.exports=Tdrc;

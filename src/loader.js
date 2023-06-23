@@ -8,9 +8,12 @@ const loadMethods=that=>{
   const methods=['set','control','render']
   methods.forEach(method=>{
     const imported=require('./methods/'+method);
-    for (const variable in imported){
-      that[variable]=imported[variable];
+    if(typeof imported=='object'){
+      for (const variable in imported){
+        that[variable]=imported[variable];
+      }
     }
+    else that[method]=imported;
   })
 }
 

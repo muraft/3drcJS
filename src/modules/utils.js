@@ -3,7 +3,7 @@ const toRadian=(degree)=>degree*Math.PI/180;
 module.exports={
   toRadian:degree=>degree*Math.PI/180,
 
-  assign:(target,obj)=>Object.entries(obj).forEach(v=>this[target][v[0]]=v[1]),
+  assign:(that,target,obj)=>Object.entries(obj).forEach(v=>that[target][v[0]]=v[1]),
 
   validate:(obj,list,name)=>{
     list.forEach(v=>{
@@ -13,7 +13,7 @@ module.exports={
     });
   },
 
-  toIndex:(x,y)=>y*this.map.side+x, 
+  toIndex:(side,x,y)=>y*side+x, 
   
   identifyFace:(player,posX,posY,orientation)=>{
     if(orientation=='vertical'){
