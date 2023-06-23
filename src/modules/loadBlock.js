@@ -15,7 +15,7 @@ const loadBlock=that=>{
         type='colour'; 
         data=w; 
       } 
-      let face=['left','top','right','bottom'] 
+      let face=['left','top','right','bottom'];
       that.texture.data[v[0]][face[i]]={type,content:data,transparent} 
     }) 
   }) 

@@ -1,4 +1,4 @@
-const render3d=(that,rays,canvas,ctx)=>{
+const render3d=function(that,rays,canvas,ctx){
     let lineWidth=(canvas.width/that.graphic.totalRay);
     ctx.fillStyle="skyblue";
     ctx.fillRect(0,0,canvas.width,canvas.height)
