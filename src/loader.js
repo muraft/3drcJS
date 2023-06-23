@@ -4,14 +4,14 @@ const loadDefault=that=>{
   Object.assign(that,values)
 }
 
-const loadModules=that=>{
-  const modules=['control','loadBlock','set','utils']
-  modules.forEach(module=>{
-    const imported=require('./modules/'+module);
+const loadMethods=that=>{
+  const methods=['set','control','render']
+  methods.forEach(method=>{
+    const imported=require('./methods/'+method);
     for (const variable in imported){
       that[variable]=imported[variable];
     }
   })
 }
 
-module.exports={loadDefault,loadModules};
+module.exports={loadDefault,loadMethods};
