@@ -14,7 +14,7 @@
 </head>
 <body>
   <canvas id="screen"></canvas>
-  <script src="3drc.js"></script>
+  <script src="dist/3drc.bundle.js"></script>
   <br>
   <script>
     const buttons={left:false,right:false,forward:false,backward:false,faceLeft:false,faceRight:false};
@@ -79,6 +79,7 @@
   <button ontouchstart="buttons.backward=true" ontouchend="buttons.backward=false">&dArr;</button>
   <script>
     let tdrc=new Tdrc();
+    console.log(tdrc)
     const exampleMap={
     data: [1,1,1,1,1,1,1,1,1,1,
            1,0,0,2,0,0,0,0,0,1,
