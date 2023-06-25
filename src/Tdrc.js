@@ -1,5 +1,6 @@
 const {loadDefault,loadMethods,loadClasses}=require('./loader.js');
 const loadBlock=require('./modules/loadBlock.js');
+const {validate}=require('./modules/utils.js')
 
 class Tdrc{
   constructor(){
@@ -7,6 +8,8 @@ class Tdrc{
     loadMethods(this, ['set','control','render']);
   }
   init(){
+    validate(this.map,['data'],'map');
+    validate(this.player,['x','y'],'player');
     loadBlock(this);
   }
 }
