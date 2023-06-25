@@ -23,5 +23,6 @@ module.exports={
       texture: true,
       depth: false
     },
-    rays:0
+    rays:[], 
+    devMode:false
 }

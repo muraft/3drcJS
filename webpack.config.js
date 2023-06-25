@@ -10,4 +10,5 @@ module.exports = {
     libraryTarget: "umd",
     library: "Tdrc"
   }, 
+  watch:true
 };

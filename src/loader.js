@@ -1,8 +1,6 @@
 const values=require('./config/default.js');
 
-const loadDefault=that=>{
-  Object.assign(that,values)
-}
+const loadDefault=that=>Object.assign(that,values)
 
 const loadMethods=that=>{
   const methods=['set','control','render']

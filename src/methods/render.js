@@ -7,7 +7,7 @@ const render=function(canvas){
     this.player.xPos = this.player.x*this.map.cellSize;
     this.player.yPos = this.player.y*this.map.cellSize;
     this.rays=castRay(this);
-    //console.log(this.rays);
+    if(this.devMode)console.log(this.rays);
     render3d(this,this.rays,canvas,ctx);
   }
   
