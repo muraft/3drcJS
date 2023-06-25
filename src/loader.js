@@ -2,8 +2,7 @@ const values=require('./config/default.js');
 
 const loadDefault=that=>Object.assign(that,values)
 
-const loadMethods=that=>{
-  const methods=['set','control','render']
+const loadMethods=(that,methods)=>{
   methods.forEach(method=>{
     const imported=require('./methods/'+method);
     if(typeof imported=='object'){
@@ -15,4 +14,8 @@ const loadMethods=that=>{
   })
 }
 
-module.exports={loadDefault,loadMethods};
+const loadClasses=classes=>{
+  classes.forEach(c=>window[c]=require('./Classes/'+c));
+}
+
+module.exports={loadDefault,loadMethods,loadClasses};
