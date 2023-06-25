@@ -13,16 +13,5 @@ module.exports={
     });
   },
 
-  toIndex:(side,x,y)=>y*side+x, 
-  
-  identifyFace:(player,posX,posY,orientation)=>{
-    if(orientation=='vertical'){
-      if(posX>player.xPos)return 'left';
-      else return 'right';
-    }
-    if(orientation=='horizontal'){
-      if(posY>player.yPos)return 'top';
-      else return 'bottom';
-    }
-  } 
+  toIndex:(side,x,y)=>y*side+x
 }
