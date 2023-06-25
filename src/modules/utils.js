@@ -8,7 +8,7 @@ module.exports={
   validate:(obj,list,name)=>{
     list.forEach(v=>{
       if(!obj.hasOwnProperty(v)){
-        throw new Error(`${name.charAt(0).toUpperCase()+name.slice(1)} must has "${v}"`)
+        throw new Error(`${name.charAt(0).toUpperCase()+name.slice(1)} must has "${v}" as the properties`)
       }
     });
   },

@@ -10,8 +10,8 @@ module.exports={
       data: {}
     },
     player:{
-      x: 1,
-      y: 1,
+      //x: 1,
+      //y: 1, 
       size: 0.2*mapCellSize,
       angle: toRadian(45),
       speed: 0.05
