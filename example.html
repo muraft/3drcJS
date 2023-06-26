@@ -17,7 +17,7 @@
   <script src="dist/bundle.js"></script>
   <br>
   <script>
-    const buttons=new Buttons();
+    const buttons=new Tdrc_Buttons();
     buttons.keyboard('default');
   </script>
   <button ontouchstart="buttons.faceLeft=true" ontouchend="buttons.faceLeft=false">left</button>
@@ -58,12 +58,11 @@
     
     //tdrc.devMode=true;
     tdrc.init();
-    window.onload=()=>loop();
-    function loop(){
+    tdrc.run(()=>{
       tdrc.control(buttons);
-      tdrc.render(document.getElementById('screen'))
-      requestAnimationFrame(loop);
-    }
+      tdrc.render(document.getElementById('screen'));
+      console.log(Math.round(tdrc.fps))
+    })
   </script>
 </body>
 </html>

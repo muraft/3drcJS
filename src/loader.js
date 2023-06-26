@@ -15,7 +15,7 @@ const loadMethods=(that,methods)=>{
 }
 
 const loadClasses=classes=>{
-  classes.forEach(c=>window[c]=require('./Classes/'+c));
+  classes.forEach(c=>window['Tdrc_'+c]=require('./Classes/'+c));
 }
 
 module.exports={loadDefault,loadMethods,loadClasses};

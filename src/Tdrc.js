@@ -5,7 +5,7 @@ const {validate}=require('./modules/utils.js')
 class Tdrc{
   constructor(){
     loadDefault(this);
-    loadMethods(this, ['set','control','render']);
+    loadMethods(this, ['set','control','run', 'render']);
   }
   init(){
     validate(this.map,['data'],'map');
