@@ -1,18 +1,18 @@
 const {toRadian}=require('../modules/utils.js');
 
-const mapCellSize=5;
+const mapBlockWidth=5;
 module.exports={
     map:{
-      cellSize:mapCellSize
+      blockWidth:mapBlockWidth
     },
     texture:{
-      colour:'blue',
+      color:'blue',
       data: {}
     },
     player:{
       //x: 1,
       //y: 1, 
-      size: 0.2*mapCellSize,
+      size: 0.2*mapBlockWidth,
       angle: toRadian(45),
       speed: 0.05 //Block per frame
     },

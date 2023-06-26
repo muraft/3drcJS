@@ -61,7 +61,8 @@
     tdrc.run(()=>{
       tdrc.control(buttons);
       tdrc.render(document.getElementById('screen'));
-      console.log(Math.round(tdrc.fps))
+      tdrc.drawMap(0,0,5,document.getElementById('screen'))
+     //console.log(Math.round(tdrc.fps))
     })
   </script>
 </body>

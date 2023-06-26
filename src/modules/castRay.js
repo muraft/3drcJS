@@ -11,14 +11,14 @@ function identifyFace(player,posX,posY,orientation){
     }
   }
 
-function getTexturePos(rayEnd, step, cellSize){
-  return (Math.abs(rayEnd)+Math.abs(step))/cellSize-Math.floor((Math.abs(rayEnd)+Math.abs(step))/cellSize)
+function getTexturePos(rayEnd, step, blockWidth){
+  return (Math.abs(rayEnd)+Math.abs(step))/blockWidth-Math.floor((Math.abs(rayEnd)+Math.abs(step))/blockWidth)
 }
 
 function getBlockId(totalX,totalY,map){
   return map.data[
-            toIndex(map.side,Math.floor(totalX/map.cellSize),
-            Math.floor(totalY/map.cellSize))] 
+            toIndex(map.width,Math.floor(totalX/map.blockWidth),
+            Math.floor(totalY/map.blockWidth))] 
 }
 
 const castRay=(that)=>{ 
@@ -47,25 +47,25 @@ const castRay=(that)=>{
              distanceX: totalX, 
              distanceY: totalY, 
              face: identifyFace(that.player,totalX,totalY,'vertical'), 
-             texturePos: getTexturePos(rayEndY, stepY,that.map.cellSize),  
+             texturePos: getTexturePos(rayEndY, stepY,that.map.blockWidth),  
              blockId 
            }); 
          } 
-         blockId=that.map.data[toIndex(that.map.side,Math.floor(rayEndX/that.map.cellSize),Math.floor((totalY)/that.map.cellSize))]; 
+         blockId=that.map.data[toIndex(that.map.width,Math.floor(rayEndX/that.map.blockWidth),Math.floor((totalY)/that.map.blockWidth))]; 
          if(blockId!=0){ 
            hit=true; 
            rays.push({ 
              distanceX: totalX, 
              distanceY: totalY, 
              face: identifyFace(that.player,totalX,totalY,'horizontal'), 
-             texturePos: getTexturePos(rayEndX, stepX,that.map.cellSize),  
+             texturePos: getTexturePos(rayEndX, stepX,that.map.blockWidth),  
              blockId 
            }); 
          } 
          rayEndX+=stepX; 
          rayEndY+=stepY; 
-         if(rayEndX<0 || rayEndX>that.map.side*that.map.cellSize)hit=true; 
-         if(rayEndY<0 || rayEndY>that.map.side*that.map.cellSize)hit=true; 
+         if(rayEndX<0 || rayEndX>that.map.width*that.map.blockWidth)hit=true; 
+         if(rayEndY<0 || rayEndY>that.map.width*that.map.blockWidth)hit=true; 
        } 
        currentAngle+=angleIncrement; 
        count++; 

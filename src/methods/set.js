@@ -3,10 +3,10 @@ const {assign, validate, toRadian}=require('../modules/utils.js');
 const setMap=function(map){
     Object.assign(this.map,map);
     validate(this.map,['data'],'map');
-    let side=Math.sqrt(this.map.data.length);
-    if(side%1!=0)throw new Error('Only n×n square map is supported');
-    else this.map.side=side;
-    this.map.distance=this.map.side*this.map.cellSize-this.map.cellSize*2;
+    let width=Math.sqrt(this.map.data.length);
+    if(width%1!=0)throw new Error('Only n×n square map is supported');
+    else this.map.width=width;
+    this.map.distance=this.map.width*this.map.blockWidth-this.map.blockWidth*2;
   }
 
 const setGraphic=function(graphic){
