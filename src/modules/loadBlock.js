@@ -12,7 +12,7 @@ const loadBlock=that=>{
         if(/\.png$/g.test(w))transparent=true; 
       } 
       else{ 
-        type='colour'; 
+        type='color'; 
         data=w; 
       } 
       let face=['left','top','right','bottom'];
