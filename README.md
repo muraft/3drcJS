@@ -36,7 +36,7 @@ const exampleMap={
     
     tdrc.init();
     
-    window.onload=()=>tdrc.render(document.getElementById('screen');
+    tdrc.render(document.getElementById('screen');
 </script>
 ```
 Result:
@@ -45,10 +45,3 @@ For more complex example please look at [example.html](https://github.com/muraft
 
 ## Documentation
 Coming soon
-
-## Planned features
-- FPS counter
-- Minimap renderer
-- transparent/png block
-- animated/gif block
-- Door type block
