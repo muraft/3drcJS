@@ -6,12 +6,10 @@ const drawMap=function(x,y,width,canvas){
     
     ctx.fillStyle=v==0?'grey':'blue';
     ctx.fillRect(xPos,yPos,width,width)
-    
-    ctx.fillStyle='yellow';
-    ctx.fillRect(this.player.x*width,this.player.y*width,0.2*width,0.2*width)
-    //ctx.arc(this.player.x*width,this.player.y*width,3,0,2*Math.PI);
-    //ctx.stroke();
   })
+  ctx.fillStyle='red';
+  ctx.arc(this.player.x*width,this.player.y*width,2,0,2*Math.PI);
+  ctx.fill(); 
 }
 
 module.exports=drawMap;
