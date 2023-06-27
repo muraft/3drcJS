@@ -9,21 +9,23 @@ const drawMap=function(x,y,scale,canvas){
     ctx.fillRect(xPos,yPos,scale,scale)
   })
   
-  ctx.fillStyle='red';
-  ctx.beginPath();
-  ctx.arc(this.player.x*scale,this.player.y*scale,2,0,2*Math.PI);
-  ctx.fill(); 
-  ctx.closePath();
-  
   this.rays.forEach(ray=>{
     ctx.strokeWidth=10; 
     ctx.strokeStyle="yellow"; 
     ctx.beginPath(); 
     ctx.moveTo(this.player.x*scale,this.player.y*scale); 
-    ctx.lineTo(ray.distanceX,ray.distanceY); 
+    
+    let rayScale=scale/this.map.blockWidth;
+    ctx.lineTo(ray.distanceX*rayScale,ray.distanceY*rayScale); 
     ctx.stroke(); 
     ctx.closePath();
   })
+  
+  ctx.fillStyle='red';
+  ctx.beginPath();
+  ctx.arc(this.player.x*scale,this.player.y*scale,2,0,2*Math.PI);
+  ctx.fill(); 
+  ctx.closePath();
 }
 
 module.exports=drawMap;
