@@ -21,6 +21,29 @@ function getBlockId(totalX,totalY,map){
             Math.floor(totalY/map.blockWidth))] 
 }
 
+class Ray{
+  constructor(that,rayEndX,rayEndY,totalX,totalY,stepX,stepY,blockId,direction){
+    if(direction=='vertical'){
+      return { 
+        distanceX: totalX, 
+        distanceY: totalY, 
+        face: identifyFace(that.player,totalX,totalY,'vertical'), 
+        texturePos: getTexturePos(rayEndY, stepY,that.map.blockWidth),  
+        blockId 
+       } 
+    }
+    else{
+      return {
+        distanceX: totalX,  
+        distanceY: totalY,  
+        face: identifyFace(that.player,totalX,totalY,'horizontal'),  
+        texturePos: getTexturePos(rayEndX, stepX,that.map.blockWidth),   
+        blockId 
+      }
+    }
+  }
+}
+
 const castRay=(that)=>{ 
      let currentAngle=that.player.angle-that.graphic.fov/2; 
      let angleIncrement=that.graphic.fov/that.graphic.totalRay; 
@@ -40,27 +63,15 @@ const castRay=(that)=>{
          totalX=rayEndX+stepX;
          totalY=rayEndY+stepY;
 
-         let blockId=getBlockId(totalX, rayEndY, that.map)
+         let blockId=getBlockId(totalX, rayEndY, that.map);
          if(blockId!=0){ 
            hit=true; 
-           rays.push({ 
-             distanceX: totalX, 
-             distanceY: totalY, 
-             face: identifyFace(that.player,totalX,totalY,'vertical'), 
-             texturePos: getTexturePos(rayEndY, stepY,that.map.blockWidth),  
-             blockId 
-           }); 
-         } 
-         blockId=that.map.data[toIndex(that.map.width,Math.floor(rayEndX/that.map.blockWidth),Math.floor((totalY)/that.map.blockWidth))]; 
+           rays.push(new Ray(that,rayEndX,rayEndY,totalX,totalY,stepX,stepY,blockId,'vertical')); 
+         }
+         blockId=getBlockId(rayEndX,totalY,that.map);
          if(blockId!=0){ 
            hit=true; 
-           rays.push({ 
-             distanceX: totalX, 
-             distanceY: totalY, 
-             face: identifyFace(that.player,totalX,totalY,'horizontal'), 
-             texturePos: getTexturePos(rayEndX, stepX,that.map.blockWidth),  
-             blockId 
-           }); 
+           rays.push(new Ray(that,rayEndX,rayEndY,totalX,totalY,stepX,stepY,blockId,'horizontal')); 
          } 
          rayEndX+=stepX; 
          rayEndY+=stepY; 

@@ -40,7 +40,7 @@ const exampleMap={
 </script>
 ```
 Result:
-![screenshot](screenshot.jpg)
+![screenshot](media/screenshot.jpg)
 For more complex example please look at [example.html](https://github.com/muraft/3drcJS/blob/main/example.html) and see the result [here](https://muraft.github.io/3drcJS/example.html)
 
 ## Documentation
