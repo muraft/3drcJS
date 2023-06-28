@@ -34,7 +34,7 @@
     data: [1,1,1,1,1,1,1,1,1,1,
            1,0,0,2,0,0,0,0,0,1,
            1,0,0,0,0,0,0,0,0,1,
-           1,0,0,1,0,0,2,0,0,1,
+           1,0,0,3,0,0,2,0,0,1,
            1,0,0,1,1,0,0,0,0,1,
            1,0,0,0,1,0,0,0,0,1,
            1,0,0,0,0,1,0,0,0,1,
@@ -42,8 +42,9 @@
            1,0,1,0,0,0,0,0,0,1,
            1,1,1,1,1,1,1,1,1,1],
      block:{
-       1: {texture:'test.jpg'},
-       2: {texture:['red','green','blue','yellow']}
+       1: {texture:'media/test.jpg'},
+       2: {texture:['red','green','blue','yellow']},
+       3: {texture:'media/window.png'}
      }
     }
     tdrc.setMap(exampleMap);
@@ -63,6 +64,9 @@
       tdrc.render(document.getElementById('screen'));
       tdrc.drawMap(0,0,7,document.getElementById('screen'))
      //console.log(Math.round(tdrc.fps))
+    },{
+      loop:true,
+      onload:true
     })
   </script>
 </body>
